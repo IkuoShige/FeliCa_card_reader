@@ -1,0 +1,11 @@
+[project]
+name = "felica-card-reader"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pyinstaller>=6.10.0",
+    "pyserial>=3.5",
+    "requests>=2.32.3",
+]
