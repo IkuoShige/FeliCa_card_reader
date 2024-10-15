@@ -14,5 +14,8 @@ def send_GAS_API(value):
     response = requests.post(url, json=data)
 
     # レスポンスを表示
-    print(response)
+    # if response.status_code == 200:
+        # print('データを送信しました')
+    # print(response)
+    return response
 
