@@ -6,7 +6,8 @@
 #include <PN532_SPI.h>
 #include <PN532.h>
 
-PN532_SPI pn532spi(SPI, 10);
+//PN532_SPI pn532spi(SPI, 10);
+PN532_SPI pn532spi(SPI, 13);
 PN532 nfc(pn532spi);
 
 //PN532_I2C pn532i2c(Wire);
