@@ -34,8 +34,7 @@ jobs:
           mkdir -p release
           cp dist/*.exe release/
           cp config.yaml release/
-          cd release
-          zip -r ../release.zip .
+          Compress-Archive -Path release/* -DestinationPath release.zip
 
       - name: Archive the build
         uses: actions/upload-artifact@v3
