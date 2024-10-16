@@ -1,0 +1,64 @@
+name: Build and Release Python Executable
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # 使いたいPythonのバージョンを指定
+
+      - uses: yezz123/setup-uv@v4
+        with:
+          uv-version: "0.4.18"
+      - run: uv --version
+
+      - name: Run PyInstaller
+        run: |
+          uv sync
+          uv add -r requirements.txt
+          uv run pyinstaller connect_arduino.py gas_api.py --onefile
+
+      - name: Create ZIP archive
+        run: |
+          mkdir -p release
+          cp dist/*.exe release/
+          cp config.yaml release/
+          cd release
+          zip -r ../release.zip .
+
+      - name: Archive the build
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-app
+          path: release.zip
+
+  create-release:
+    needs: build-windows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: python-app
+          path: .
+
+      - name: Create a release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
