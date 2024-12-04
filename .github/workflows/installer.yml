@@ -1,4 +1,4 @@
-name: Build and Release Python Executable
+name: Build and Release Python Executable v 0.0.2
 
 on:
   push:
